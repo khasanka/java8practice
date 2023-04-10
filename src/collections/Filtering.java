@@ -5,6 +5,7 @@ import model.Employee;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Filtering {
@@ -19,11 +20,14 @@ public class Filtering {
         List<Integer> graterThan50 = integerList.stream().filter(x -> x > 50).collect(Collectors.toList());
         System.out.println(graterThan50);
 
-        List<Employee> empList = Arrays.asList(new Employee(1,"AA",2000L),
-                new Employee(2,"BB", 8000L),
-                new Employee(3,"CC", 4000L),
-                new Employee(4,"DD", 1000L),
-                new Employee(5,"DD", 10000L));
+        List<Employee> empList = Arrays.asList(
+                new Employee(1,"AA", 'F',2000L),
+                new Employee(2,"BB", 'M', 8000L),
+                new Employee(3,"CC", 'F', 4000L),
+                new Employee(4,"DD", 'M', 1000L),
+                new Employee(5,"DD", 'M', 10000L),
+                new Employee(6,"EE",'F', 1000L)
+        );
 
         System.out.println("\n============== highest salary emp ==============");
         Employee maxSalaryEmp = empList.stream().collect(Collectors.maxBy(Comparator.comparing(Employee::getSalary))).get();
@@ -37,6 +41,10 @@ public class Filtering {
         System.out.println("\n============== count of emp salary > 5000 ==============");
         long empCount = empList.stream().filter(emp -> emp.getSalary() > 5000).count();
         System.out.println(empCount);
+
+        System.out.println("\n============== num of male and female emp ==============");
+        Map<Character, Long> collect = empList.stream().collect(Collectors.groupingBy(Employee::getSex, Collectors.counting()));
+        System.out.println(collect);
 
 
     }
